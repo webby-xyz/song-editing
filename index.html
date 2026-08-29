@@ -2,242 +2,637 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Song Edit with Ritesh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080812">
+
+<title>Song Edit With Ritesh</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<div class="bg-glow glow-one"></div>
+<div class="bg-glow glow-two"></div>
+<div class="bg-glow glow-three"></div>
+
 <div class="app">
 
 <header class="topbar">
-  <div>
-    <div class="brand">🎵 SONG EDIT <span>WITH RITESH</span></div>
-    <div class="subtitle">Professional Browser Audio Studio</div>
-  </div>
-  <div class="status" id="status">● READY</div>
+
+    <div class="brand-box">
+        <div class="brand-icon">♫</div>
+
+        <div>
+            <div class="brand">
+                SONG EDIT <span>WITH RITESH</span>
+            </div>
+
+            <div class="brand-sub">
+                PROFESSIONAL AUDIO STUDIO
+            </div>
+        </div>
+    </div>
+
+    <div id="status" class="status ready">
+        <i></i> READY
+    </div>
+
 </header>
 
-<section class="card import-card">
 
-  <h2>Import Your Song</h2>
+<!-- IMPORT -->
 
-  <div class="url-row">
-    <input id="ytUrl" type="url"
-      placeholder="Paste YouTube link here...">
-    <button id="ytBtn">CHECK LINK</button>
-  </div>
+<section class="hero glass">
 
-  <div id="ytMsg" class="message"></div>
-  <div id="ytPreview" class="yt-preview hidden"></div>
+    <div class="hero-content">
 
-  <div class="or">OR</div>
+        <div class="hero-badge">
+            ✦ BROWSER AUDIO ENGINE
+        </div>
 
-  <label class="upload-btn">
-    📁 UPLOAD AUDIO / VIDEO
-    <input id="fileInput" type="file"
-      accept="audio/*,video/*">
-  </label>
+        <h1>
+            Create Your
+            <span>Sound.</span>
+        </h1>
 
-  <p class="note">
-    Use audio/video that you own or have permission to edit.
-  </p>
+        <p>
+            Professional audio editing directly in your browser.
+            No API required.
+        </p>
+
+        <label class="upload-main">
+
+            <input
+                id="fileInput"
+                type="file"
+                accept="audio/*,video/*,.mp3,.wav,.m4a,.aac,.ogg,.opus,.flac,.webm,.mp4">
+
+            <div class="upload-symbol">＋</div>
+
+            <div>
+                <strong>DROP YOUR SONG HERE</strong>
+                <small>
+                    MP3 • WAV • M4A • OGG • AAC • FLAC • VIDEO
+                </small>
+            </div>
+
+            <span class="browse">
+                BROWSE
+            </span>
+
+        </label>
+
+        <div id="uploadInfo" class="upload-info"></div>
+
+    </div>
 
 </section>
 
+
+<!-- EDITOR -->
+
 <section id="editor" class="hidden">
 
-  <section class="card player-card">
 
-    <div class="song-title">
-      <div class="cover">🎵</div>
-      <div>
-        <h2 id="songName">No file loaded</h2>
-        <p id="durationText">00:00</p>
-      </div>
+<!-- PLAYER -->
+
+<section class="studio-player glass">
+
+    <div class="track-head">
+
+        <div class="album">
+
+            <div class="album-ring">
+                <div class="album-core">♫</div>
+            </div>
+
+        </div>
+
+        <div class="track-details">
+
+            <div class="track-label">
+                NOW EDITING
+            </div>
+
+            <h2 id="songName">
+                No song loaded
+            </h2>
+
+            <div class="track-meta">
+                <span id="durationText">00:00</span>
+                <span>•</span>
+                <span>STEREO</span>
+            </div>
+
+        </div>
+
+        <div class="meter-wrap">
+
+            <div class="meter">
+                <div id="meterL"></div>
+            </div>
+
+            <div class="meter">
+                <div id="meterR"></div>
+            </div>
+
+        </div>
+
     </div>
+
 
     <canvas id="waveform"></canvas>
 
+
     <div class="timeline">
-      <input id="seek" type="range" min="0" max="100" value="0">
+
+        <input
+            id="seek"
+            type="range"
+            min="0"
+            max="100"
+            value="0">
+
     </div>
 
-    <div class="time-row">
-      <span id="currentTime">00:00</span>
-      <span id="totalTime">00:00</span>
+
+    <div class="time-line">
+
+        <span id="currentTime">00:00</span>
+
+        <span id="totalTime">00:00</span>
+
     </div>
+
 
     <div class="transport">
-      <button id="minus10">↶ 10s</button>
-      <button id="playBtn" class="play">▶</button>
-      <button id="plus10">10s ↷</button>
+
+        <button id="minus10" class="round-btn">
+            ↶
+        </button>
+
+        <button id="playBtn" class="play-btn">
+            ▶
+        </button>
+
+        <button id="plus10" class="round-btn">
+            ↷
+        </button>
+
     </div>
 
-  </section>
 
-  <div class="tools">
+    <audio id="audio" preload="metadata"></audio>
 
-    <section class="card panel">
-      <h3>✂️ TRIM</h3>
+</section>
 
-      <label>Start</label>
-      <input id="trimStart" type="number" min="0"
-        step="0.01" value="0">
 
-      <label>End</label>
-      <input id="trimEnd" type="number" min="0"
-        step="0.01" value="0">
 
-      <button id="useCurrentEnd">USE CURRENT TIME</button>
-    </section>
+<!-- EDITING GRID -->
 
-    <section class="card panel">
-      <h3>🎚️ EQ & VOLUME</h3>
+<div class="editor-grid">
 
-      <label>Volume <b id="volumeVal">100%</b></label>
-      <input id="volume" type="range"
-        min="0" max="2" step=".01" value="1">
 
-      <label>Bass <b id="bassVal">0 dB</b></label>
-      <input id="bass" type="range"
-        min="-20" max="20" step=".1" value="0">
+<!-- TRIM -->
 
-      <label>Mid <b id="midVal">0 dB</b></label>
-      <input id="mid" type="range"
-        min="-20" max="20" step=".1" value="0">
+<section class="panel glass">
 
-      <label>Treble <b id="trebleVal">0 dB</b></label>
-      <input id="treble" type="range"
-        min="-20" max="20" step=".1" value="0">
-    </section>
+    <div class="panel-title">
+        <span>✂</span>
+        <div>
+            <h3>TRIM</h3>
+            <small>PRECISION CUT</small>
+        </div>
+    </div>
 
-    <section class="card panel">
-      <h3>🎧 EFFECTS</h3>
+    <div class="field-grid">
 
-      <div class="effects">
+        <div>
+            <label>START</label>
+
+            <input
+                id="trimStart"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0">
+        </div>
+
+        <div>
+            <label>END</label>
+
+            <input
+                id="trimEnd"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0">
+        </div>
+
+    </div>
+
+    <button id="useCurrentEnd" class="secondary">
+        SET CURRENT AS END
+    </button>
+
+</section>
+
+
+<!-- EQ -->
+
+<section class="panel glass">
+
+    <div class="panel-title">
+        <span>≋</span>
+        <div>
+            <h3>PRO EQ</h3>
+            <small>3 BAND EQUALIZER</small>
+        </div>
+    </div>
+
+    <div class="slider">
+
+        <label>
+            BASS
+            <b id="bassVal">0 dB</b>
+        </label>
+
+        <input
+            id="bass"
+            type="range"
+            min="-20"
+            max="20"
+            step="0.1"
+            value="0">
+
+    </div>
+
+    <div class="slider">
+
+        <label>
+            MID
+            <b id="midVal">0 dB</b>
+        </label>
+
+        <input
+            id="mid"
+            type="range"
+            min="-20"
+            max="20"
+            step="0.1"
+            value="0">
+
+    </div>
+
+    <div class="slider">
+
+        <label>
+            TREBLE
+            <b id="trebleVal">0 dB</b>
+        </label>
+
+        <input
+            id="treble"
+            type="range"
+            min="-20"
+            max="20"
+            step="0.1"
+            value="0">
+
+    </div>
+
+</section>
+
+
+<!-- VOLUME -->
+
+<section class="panel glass">
+
+    <div class="panel-title">
+        <span>◉</span>
+        <div>
+            <h3>GAIN</h3>
+            <small>LEVEL CONTROL</small>
+        </div>
+    </div>
+
+    <div class="big-value">
+        <span id="volumeVal">100%</span>
+    </div>
+
+    <input
+        id="volume"
+        type="range"
+        min="0"
+        max="2"
+        step="0.01"
+        value="1">
+
+    <div class="slider">
+
+        <label>
+            COMPRESSION
+            <b id="compressionVal">0%</b>
+        </label>
+
+        <input
+            id="compression"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0">
+
+    </div>
+
+</section>
+
+
+<!-- EFFECTS -->
+
+<section class="panel glass effects-panel">
+
+    <div class="panel-title">
+        <span>✦</span>
+        <div>
+            <h3>FX ENGINE</h3>
+            <small>CREATIVE EFFECTS</small>
+        </div>
+    </div>
+
+    <div class="fx-grid">
+
         <button data-effect="8d">8D</button>
         <button data-effect="16d">16D</button>
         <button data-effect="32d">32D</button>
+
         <button data-effect="slow">SLOW</button>
         <button data-effect="lofi">LO-FI</button>
         <button data-effect="bassboost">BASS+</button>
+
         <button data-effect="echo">ECHO</button>
         <button data-effect="reverb">REVERB</button>
-      </div>
-    </section>
 
-    <section class="card panel">
-      <h3>⏩ SPEED</h3>
+    </div>
 
-      <label>
-        Speed <b id="speedVal">1.00x</b>
-      </label>
+</section>
 
-      <input id="speed" type="range"
-        min=".5" max="2" step=".01" value="1">
 
-      <div class="presets">
-        <button data-speed=".5">0.5x</button>
-        <button data-speed=".75">0.75x</button>
+<!-- SPEED -->
+
+<section class="panel glass">
+
+    <div class="panel-title">
+        <span>↯</span>
+        <div>
+            <h3>SPEED</h3>
+            <small>TIME CONTROL</small>
+        </div>
+    </div>
+
+    <div class="big-value">
+        <span id="speedVal">1.00x</span>
+    </div>
+
+    <input
+        id="speed"
+        type="range"
+        min="0.5"
+        max="2"
+        step="0.01"
+        value="1">
+
+    <div class="chips">
+
+        <button data-speed="0.5">0.5x</button>
+        <button data-speed="0.75">0.75x</button>
         <button data-speed="1">1x</button>
         <button data-speed="1.25">1.25x</button>
         <button data-speed="1.5">1.5x</button>
-      </div>
-    </section>
+        <button data-speed="2">2x</button>
 
-    <section class="card panel">
-      <h3>🎼 PITCH</h3>
+    </div>
 
-      <label>
-        Pitch <b id="pitchVal">0</b> semitone
-      </label>
+</section>
 
-      <input id="pitch" type="range"
-        min="-12" max="12" step="1" value="0">
 
-      <div class="presets">
+<!-- PITCH -->
+
+<section class="panel glass">
+
+    <div class="panel-title">
+        <span>♬</span>
+        <div>
+            <h3>PITCH</h3>
+            <small>KEY SHIFT</small>
+        </div>
+    </div>
+
+    <div class="big-value">
+        <span id="pitchVal">0</span>
+        <small> SEMITONE</small>
+    </div>
+
+    <input
+        id="pitch"
+        type="range"
+        min="-12"
+        max="12"
+        step="1"
+        value="0">
+
+    <div class="chips">
+
         <button data-pitch="-5">-5</button>
         <button data-pitch="-2">-2</button>
         <button data-pitch="0">0</button>
         <button data-pitch="2">+2</button>
         <button data-pitch="5">+5</button>
-      </div>
-    </section>
 
-    <section class="card panel">
-      <h3>↔️ STEREO</h3>
-
-      <label>Pan</label>
-      <input id="pan" type="range"
-        min="-1" max="1" step=".01" value="0">
-
-      <label>Width</label>
-      <input id="width" type="range"
-        min="0" max="2" step=".01" value="1">
-    </section>
-
-    <section class="card panel">
-      <h3>🔊 DYNAMICS</h3>
-
-      <label>Compression</label>
-      <input id="compression" type="range"
-        min="0" max="1" step=".01" value="0">
-
-      <label>Limiter</label>
-      <input id="limiter" type="range"
-        min="0" max="1" step=".01" value=".2">
-    </section>
-
-    <section class="card panel">
-      <h3>🌊 FADE</h3>
-
-      <label>Fade In (seconds)</label>
-      <input id="fadeIn" type="number"
-        min="0" max="30" step=".1" value="0">
-
-      <label>Fade Out (seconds)</label>
-      <input id="fadeOut" type="number"
-        min="0" max="30" step=".1" value="0">
-    </section>
-
-    <section class="card panel">
-      <h3>🔄 ACTIONS</h3>
-
-      <button id="reverseBtn">REVERSE PREVIEW</button>
-      <button id="resetBtn">RESET EFFECTS</button>
-    </section>
-
-  </div>
-
-  <section class="card export-card">
-
-    <h2>🚀 EXPORT EDITED SONG</h2>
-
-    <p>
-      The browser will render your selected effects into a new WAV file.
-    </p>
-
-    <button id="exportBtn" class="export-btn">
-      ⚡ RENDER & DOWNLOAD WAV
-    </button>
-
-    <div class="progress-box hidden" id="progressBox">
-      <div class="progress-bar">
-        <div id="progressFill"></div>
-      </div>
-      <div id="progressText">Preparing...</div>
     </div>
 
-    <div id="exportMsg"></div>
+</section>
 
-  </section>
+
+<!-- STEREO -->
+
+<section class="panel glass">
+
+    <div class="panel-title">
+        <span>↔</span>
+        <div>
+            <h3>STEREO</h3>
+            <small>SPATIAL CONTROL</small>
+        </div>
+    </div>
+
+    <div class="slider">
+
+        <label>
+            PAN
+            <b id="panVal">CENTER</b>
+        </label>
+
+        <input
+            id="pan"
+            type="range"
+            min="-1"
+            max="1"
+            step="0.01"
+            value="0">
+
+    </div>
+
+    <div class="slider">
+
+        <label>
+            WIDTH
+            <b id="widthVal">100%</b>
+        </label>
+
+        <input
+            id="width"
+            type="range"
+            min="0"
+            max="2"
+            step="0.01"
+            value="1">
+
+    </div>
+
+</section>
+
+
+<!-- FADE -->
+
+<section class="panel glass">
+
+    <div class="panel-title">
+        <span>〰</span>
+        <div>
+            <h3>FADE</h3>
+            <small>SMOOTH TRANSITIONS</small>
+        </div>
+    </div>
+
+    <div class="field-grid">
+
+        <div>
+            <label>FADE IN</label>
+
+            <input
+                id="fadeIn"
+                type="number"
+                min="0"
+                max="30"
+                step="0.1"
+                value="0">
+        </div>
+
+        <div>
+            <label>FADE OUT</label>
+
+            <input
+                id="fadeOut"
+                type="number"
+                min="0"
+                max="30"
+                step="0.1"
+                value="0">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ACTIONS -->
+
+<section class="panel glass">
+
+    <div class="panel-title">
+        <span>⚙</span>
+        <div>
+            <h3>TOOLS</h3>
+            <small>MASTER CONTROLS</small>
+        </div>
+    </div>
+
+    <button id="reverseBtn" class="secondary">
+        ↔ REVERSE
+    </button>
+
+    <button id="resetBtn" class="danger">
+        ♻ RESET ALL
+    </button>
 
 </section>
 
 </div>
 
+
+
+<!-- EXPORT -->
+
+<section class="export-panel glass">
+
+    <div class="export-icon">
+        ⚡
+    </div>
+
+    <div class="export-text">
+
+        <div class="export-label">
+            FINAL MASTER
+        </div>
+
+        <h2>Render Your Creation</h2>
+
+        <p>
+            All selected processing will be rendered
+            into a new WAV audio file.
+        </p>
+
+    </div>
+
+    <button id="exportBtn" class="master-btn">
+        <span>RENDER & DOWNLOAD</span>
+        <b>WAV ↓</b>
+    </button>
+
+</section>
+
+
+<div id="progressBox" class="progress glass hidden">
+
+    <div class="progress-head">
+        <span id="progressText">
+            Preparing...
+        </span>
+
+        <b id="progressPercent">0%</b>
+    </div>
+
+    <div class="progress-track">
+        <div id="progressFill"></div>
+    </div>
+
+</div>
+
+
+<div id="exportMsg"></div>
+
+</section>
+
+
+<footer>
+    SONG EDIT WITH RITESH • BROWSER AUDIO STUDIO
+</footer>
+
+</div>
+
 <script src="script.js"></script>
+
 </body>
-</html>
+          </html>

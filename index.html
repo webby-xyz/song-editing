@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Song Edit with Ritesh</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="topbar">
+  <div>
+    <div class="brand">🎵 SONG EDIT <span>WITH RITESH</span></div>
+    <div class="subtitle">Professional Browser Audio Studio</div>
+  </div>
+  <div class="status" id="status">● READY</div>
+</header>
+
+<section class="card import-card">
+
+  <h2>Import Your Song</h2>
+
+  <div class="url-row">
+    <input id="ytUrl" type="url"
+      placeholder="Paste YouTube link here...">
+    <button id="ytBtn">CHECK LINK</button>
+  </div>
+
+  <div id="ytMsg" class="message"></div>
+  <div id="ytPreview" class="yt-preview hidden"></div>
+
+  <div class="or">OR</div>
+
+  <label class="upload-btn">
+    📁 UPLOAD AUDIO / VIDEO
+    <input id="fileInput" type="file"
+      accept="audio/*,video/*">
+  </label>
+
+  <p class="note">
+    Use audio/video that you own or have permission to edit.
+  </p>
+
+</section>
+
+<section id="editor" class="hidden">
+
+  <section class="card player-card">
+
+    <div class="song-title">
+      <div class="cover">🎵</div>
+      <div>
+        <h2 id="songName">No file loaded</h2>
+        <p id="durationText">00:00</p>
+      </div>
+    </div>
+
+    <canvas id="waveform"></canvas>
+
+    <div class="timeline">
+      <input id="seek" type="range" min="0" max="100" value="0">
+    </div>
+
+    <div class="time-row">
+      <span id="currentTime">00:00</span>
+      <span id="totalTime">00:00</span>
+    </div>
+
+    <div class="transport">
+      <button id="minus10">↶ 10s</button>
+      <button id="playBtn" class="play">▶</button>
+      <button id="plus10">10s ↷</button>
+    </div>
+
+  </section>
+
+  <div class="tools">
+
+    <section class="card panel">
+      <h3>✂️ TRIM</h3>
+
+      <label>Start</label>
+      <input id="trimStart" type="number" min="0"
+        step="0.01" value="0">
+
+      <label>End</label>
+      <input id="trimEnd" type="number" min="0"
+        step="0.01" value="0">
+
+      <button id="useCurrentEnd">USE CURRENT TIME</button>
+    </section>
+
+    <section class="card panel">
+      <h3>🎚️ EQ & VOLUME</h3>
+
+      <label>Volume <b id="volumeVal">100%</b></label>
+      <input id="volume" type="range"
+        min="0" max="2" step=".01" value="1">
+
+      <label>Bass <b id="bassVal">0 dB</b></label>
+      <input id="bass" type="range"
+        min="-20" max="20" step=".1" value="0">
+
+      <label>Mid <b id="midVal">0 dB</b></label>
+      <input id="mid" type="range"
+        min="-20" max="20" step=".1" value="0">
+
+      <label>Treble <b id="trebleVal">0 dB</b></label>
+      <input id="treble" type="range"
+        min="-20" max="20" step=".1" value="0">
+    </section>
+
+    <section class="card panel">
+      <h3>🎧 EFFECTS</h3>
+
+      <div class="effects">
+        <button data-effect="8d">8D</button>
+        <button data-effect="16d">16D</button>
+        <button data-effect="32d">32D</button>
+        <button data-effect="slow">SLOW</button>
+        <button data-effect="lofi">LO-FI</button>
+        <button data-effect="bassboost">BASS+</button>
+        <button data-effect="echo">ECHO</button>
+        <button data-effect="reverb">REVERB</button>
+      </div>
+    </section>
+
+    <section class="card panel">
+      <h3>⏩ SPEED</h3>
+
+      <label>
+        Speed <b id="speedVal">1.00x</b>
+      </label>
+
+      <input id="speed" type="range"
+        min=".5" max="2" step=".01" value="1">
+
+      <div class="presets">
+        <button data-speed=".5">0.5x</button>
+        <button data-speed=".75">0.75x</button>
+        <button data-speed="1">1x</button>
+        <button data-speed="1.25">1.25x</button>
+        <button data-speed="1.5">1.5x</button>
+      </div>
+    </section>
+
+    <section class="card panel">
+      <h3>🎼 PITCH</h3>
+
+      <label>
+        Pitch <b id="pitchVal">0</b> semitone
+      </label>
+
+      <input id="pitch" type="range"
+        min="-12" max="12" step="1" value="0">
+
+      <div class="presets">
+        <button data-pitch="-5">-5</button>
+        <button data-pitch="-2">-2</button>
+        <button data-pitch="0">0</button>
+        <button data-pitch="2">+2</button>
+        <button data-pitch="5">+5</button>
+      </div>
+    </section>
+
+    <section class="card panel">
+      <h3>↔️ STEREO</h3>
+
+      <label>Pan</label>
+      <input id="pan" type="range"
+        min="-1" max="1" step=".01" value="0">
+
+      <label>Width</label>
+      <input id="width" type="range"
+        min="0" max="2" step=".01" value="1">
+    </section>
+
+    <section class="card panel">
+      <h3>🔊 DYNAMICS</h3>
+
+      <label>Compression</label>
+      <input id="compression" type="range"
+        min="0" max="1" step=".01" value="0">
+
+      <label>Limiter</label>
+      <input id="limiter" type="range"
+        min="0" max="1" step=".01" value=".2">
+    </section>
+
+    <section class="card panel">
+      <h3>🌊 FADE</h3>
+
+      <label>Fade In (seconds)</label>
+      <input id="fadeIn" type="number"
+        min="0" max="30" step=".1" value="0">
+
+      <label>Fade Out (seconds)</label>
+      <input id="fadeOut" type="number"
+        min="0" max="30" step=".1" value="0">
+    </section>
+
+    <section class="card panel">
+      <h3>🔄 ACTIONS</h3>
+
+      <button id="reverseBtn">REVERSE PREVIEW</button>
+      <button id="resetBtn">RESET EFFECTS</button>
+    </section>
+
+  </div>
+
+  <section class="card export-card">
+
+    <h2>🚀 EXPORT EDITED SONG</h2>
+
+    <p>
+      The browser will render your selected effects into a new WAV file.
+    </p>
+
+    <button id="exportBtn" class="export-btn">
+      ⚡ RENDER & DOWNLOAD WAV
+    </button>
+
+    <div class="progress-box hidden" id="progressBox">
+      <div class="progress-bar">
+        <div id="progressFill"></div>
+      </div>
+      <div id="progressText">Preparing...</div>
+    </div>
+
+    <div id="exportMsg"></div>
+
+  </section>
+
+</section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
